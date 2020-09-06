@@ -7,6 +7,7 @@
 --CSP2108 Introduction to Mobile Applcations Development 
 -- Sem 2 2020
 --By James Johnston - 10461776
+--This Scene will provide info about the APP
 -----------------------------------------------------------------------------------------
 
 
@@ -43,23 +44,24 @@ function scene:create( event )
     local titleText = display.newText(
         {
             parent = sceneGroup,
-            text = "About Page",
+            text = "APP Info",
             x = display.contentCenterX,
-            y = display.contentCenterY * 0.2,
+            y = display.contentCenterY * 0.1,
+            font = native.systemFontBold,
             fontSize = 40
         }
     )
     
-    titleText:setFillColor( color.hex("010203") )
+    titleText:setFillColor( color.hex("ef3d43") )
     sceneGroup:insert(titleText)
 
     -- Info TEXT
     local infoText = display.newText(
         {
             parent = sceneGroup,
-            text = "Graphic Simulation of Machine Learing Data Separator \n\n CSP2108 - Inroduction to Mobile Applications Development \n\n\n By \n James Johnston - 10461776",
+            text = "Graphic Simulation of Machine Learing Data Separator \n\n CSP2108 - Inroduction to Mobile Applications Development \n\n Semester 2 2020 \n\n\n By \n James Johnston - 10461776",
             x = display.contentCenterX,
-            y = display.contentCenterY * 1,
+            y = display.contentCenterY * 0.9,
             fontSize = 18,
             width = 300,
             align = "center"
@@ -99,7 +101,7 @@ function scene:create( event )
             width = 200,
             height = 40,
             cornerRadius = 2,
-            labelColor = {default = {color.hex("ef3d43")}, over = {color.hex("34acbc"), 1}},
+            labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
             fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
             strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
             strokeWidth = 4

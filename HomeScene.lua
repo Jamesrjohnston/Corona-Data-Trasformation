@@ -37,14 +37,15 @@ function scene:create( event )
     local homeText = display.newText(
         {
             parent = sceneGroup,
-            text = "Home Page",
+            text = "Graphic SIM",
             x = display.contentCenterX,
-            y = display.contentCenterY * 0.4,
+            y = display.contentCenterY * 0.3,
+            font = native.systemFontBold,
             fontSize = 40
         }
     )
 
-    homeText:setFillColor( color.hex("010203") )
+    homeText:setFillColor( color.hex("ef3d43") )
     sceneGroup:insert(homeText)
     
     --About Scence Event
@@ -65,7 +66,7 @@ function scene:create( event )
     --About Page Button
     local AboutScencebutton = widget.newButton(
         {
-            label = "About Page",
+            label = "APP Info",
             onEvent = gotoAboutScence,
             emboss = false,
             -- Properties for a rounded rectangle button
@@ -73,7 +74,7 @@ function scene:create( event )
             width = 200,
             height = 40,
             cornerRadius = 2,
-            labelColor = {default = {color.hex("ef3d43")}, over = {color.hex("34acbc"), 1}},
+            labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
             fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
             strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
             strokeWidth = 4
@@ -103,7 +104,7 @@ function scene:create( event )
     --Select Data Button
     local SelectDatabutton = widget.newButton(
         {
-            label = "Select Data",
+            label = "Select Data Source",
             onEvent = gotoSelectData,
             emboss = false,
             -- Properties for a rounded rectangle button
@@ -111,7 +112,7 @@ function scene:create( event )
             width = 200,
             height = 40,
             cornerRadius = 2,
-            labelColor = {default = {color.hex("ef3d43")}, over = {color.hex("34acbc"), 1}},
+            labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
             fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
             strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
             strokeWidth = 4
@@ -123,7 +124,45 @@ function scene:create( event )
     SelectDatabutton.x = display.contentCenterX 
     SelectDatabutton.y = display.contentCenterY * 1.2
 
+        --View Data Scence Event
+        local function gotoPlotData( event )
+ 
+            if ( "ended" == event.phase ) then
+                local options = {
+                    effect = 'fade',
+                    time = 500,
+                    params = {
+                        sceneNumber = 4,
+                    }
+                }
+                composer:gotoScene('plotDataScene', options)
+            end
+        end
+    
+        --About Page Button
+        local ViewDataButton = widget.newButton(
+            {
+                label = "View Data",
+                onEvent = gotoPlotData,
+                emboss = false,
+                -- Properties for a rounded rectangle button
+                shape = "roundedRect",
+                width = 200,
+                height = 40,
+                cornerRadius = 2,
+                labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
+                fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
+                strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
+                strokeWidth = 4
+            }
+        )
 
+        -- Center the button
+        ViewDataButton.x = display.contentCenterX 
+        ViewDataButton.y = display.contentCenterY * 1.6
+
+        sceneGroup:insert(ViewDataButton)
+    
 
 end
  
