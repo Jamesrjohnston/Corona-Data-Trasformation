@@ -34,14 +34,15 @@ function scene:create( event )
     
 
     -- Home Page TEXT
-    local homeText = display.newText
-    {
-        parent = sceneGroup,
-        text = "Home Page",
-        x = display.contentCenterX,
-        y = display.contentCenterY * 0.4,
-        fontSize = 40
-    }
+    local homeText = display.newText(
+        {
+            parent = sceneGroup,
+            text = "Home Page",
+            x = display.contentCenterX,
+            y = display.contentCenterY * 0.4,
+            fontSize = 40
+        }
+    )
 
     homeText:setFillColor( color.hex("010203") )
     sceneGroup:insert(homeText)
@@ -52,7 +53,7 @@ function scene:create( event )
         if ( "ended" == event.phase ) then
             local options = {
                 effect = 'fade',
-                time = 200,
+                time = 500,
                 params = {
                     sceneNumber = 2,
                 }

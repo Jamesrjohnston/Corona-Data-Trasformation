@@ -1,5 +1,18 @@
+-----------------------------------------------------------------------------------------
+--
+-- aboutScene.lua
+--
+--Graphic Simulation of a Machine Learning Data Separator
+--Project: Mobile App
+--CSP2108 Introduction to Mobile Applcations Development 
+-- Sem 2 2020
+--By James Johnston - 10461776
+-----------------------------------------------------------------------------------------
+
+
 local composer = require( "composer" )
-local color = require("convertcolor") 
+local color = require("convertcolor")
+local widget = require("widget") 
 
 local scene = composer.newScene()
  
@@ -20,7 +33,84 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
+
+
+    ------------------------------------------------
+    -- Page Text
+    ------------------------------------------------
+
+    -- About Page Top TEXT
+    local titleText = display.newText(
+        {
+            parent = sceneGroup,
+            text = "About Page",
+            x = display.contentCenterX,
+            y = display.contentCenterY * 0.2,
+            fontSize = 40
+        }
+    )
+    
+    titleText:setFillColor( color.hex("010203") )
+    sceneGroup:insert(titleText)
+
+    -- Info TEXT
+    local infoText = display.newText(
+        {
+            parent = sceneGroup,
+            text = "Graphic Simulation of Machine Learing Data Separator \n\n CSP2108 - Inroduction to Mobile Applications Development \n\n\n By \n James Johnston - 10461776",
+            x = display.contentCenterX,
+            y = display.contentCenterY * 1,
+            fontSize = 18,
+            width = 300,
+            align = "center"
+        }
+    )
+    
+    infoText:setFillColor(color.hex("323639"))
+    sceneGroup:insert(infoText)
  
+    ------------------------------------------------
+    -- Ruturn Button
+    ------------------------------------------------
+    --About Scence Event
+    local function gotoHomeScene( event )
+    
+        if ( "ended" == event.phase ) then
+            local options = {
+                effect = 'fade',
+                time = 500,
+                params = {
+                    sceneNumber = 2,
+                }
+            }
+            composer.removeScene('aboutScene')
+            composer:gotoScene('HomeScene', options)
+        end
+    end
+
+    --About Page Button
+    local returnbutton = widget.newButton(
+        {
+            label = "Return",
+            onEvent = gotoHomeScene,
+            emboss = false,
+            -- Properties for a rounded rectangle button
+            shape = "roundedRect",
+            width = 200,
+            height = 40,
+            cornerRadius = 2,
+            labelColor = {default = {color.hex("ef3d43")}, over = {color.hex("34acbc"), 1}},
+            fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
+            strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
+            strokeWidth = 4
+        }
+    )
+    -- Center the button
+    returnbutton.x = display.contentCenterX 
+    returnbutton.y = display.contentCenterY * 1.8
+
+    sceneGroup:insert(returnbutton)
+
 end
  
  
