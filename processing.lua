@@ -10,8 +10,9 @@
 -- This file will handle all the processing of the data
 -----------------------------------------------------------------------------------------
 
+local M = {}
 
-function loadFile(path)
+function M.loadFile(path)
     -- Initalise table
     local points = {}
     -- Open the file handle
@@ -35,3 +36,6 @@ function loadFile(path)
     local file = nil
     return points
 end
+
+
+return M
