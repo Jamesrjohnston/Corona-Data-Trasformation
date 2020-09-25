@@ -9,8 +9,16 @@
 --By James Johnston - 10461776
 -- This file will handle all the processing of the data
 -----------------------------------------------------------------------------------------
+local math = require('math')
 
 local M = {}
+
+--rounding function (find link for this thing)
+function round(num, numDecimalPlaces)
+    local mult = 10^(numDecimalPlaces or 0)
+    return math.floor(num * mult + 0.5) / mult
+  end
+
 
 function M.loadFile(path)
     -- Initalise table
@@ -37,5 +45,57 @@ function M.loadFile(path)
     return points
 end
 
+-- testing n shit
+function M.cubeRoot1(data)
+    local dataNew = {}
+    for i, v in ipairs(data) do
+        y = v[2]
+        data[i][1] = v[1]
+        data[i][2] = math.sin(y+2)
+        data[i][3] = v[3]
+    end
+    return data
+end
+
+function M.cubeRoot2(data)
+    local dataNew = {}
+    for i, v in ipairs(data) do
+        y = v[2]
+        data[i][1] = v[1]
+        data[i][2] = -y^2-y-3
+        data[i][3] = v[3]
+    end
+    return data
+end
+function M.cubeRoot3(data)
+    local dataNew = {}
+    for i, v in ipairs(data) do
+        y = v[2]
+        data[i][1] = v[1]
+        data[i][2] = -y-3*y-4
+        data[i][3] = v[3]
+    end
+    return data
+end
+function M.cubeRoot4(data)
+    local dataNew = {}
+    for i, v in ipairs(data) do
+        y = v[2]
+        data[i][1] = v[1]
+        data[i][2] = (y + 4) * 2
+        data[i][3] = v[3]
+    end
+    return data
+end
+function M.cubeRoot5(data)
+    local dataNew = {}
+    for i, v in ipairs(data) do
+        y = v[2]
+        data[i][1] = v[1]
+        data[i][2] = y * 3 + y * 2 -3 * y - 1
+        data[i][3] = v[3]
+    end
+    return data
+end
 
 return M
