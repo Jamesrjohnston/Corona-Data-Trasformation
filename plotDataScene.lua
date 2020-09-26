@@ -7,24 +7,21 @@
 --CSP2108 Introduction to Mobile Applcations Development 
 -- Sem 2 2020
 --By James Johnston - 10461776
--- This File Will plot the Data on a graph
+-- This File will plot the data on a graph
 --------------------------------------------------------------------------------------------
 
 local composer = require( "composer" )
 local color = require("convertcolor")
 local proc = require 'processing'
-local scene = composer.newScene()
 local widget = require('widget')
 local math = require 'math'
 
+local scene = composer.newScene()
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
- 
- 
- 
  
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -36,9 +33,16 @@ function scene:create( event )
     local sceneGroup = self.view
     
     --defining some stuff
-    local graphSize = 250
+    local graphSize = 230
 
-
+    --scene objects
+    local topbar = display.newRect(sceneGroup, display.contentCenterX, -40, 400, 160)
+    topbar:setFillColor(color.hex("323639"))
+    
+    local bottombar = display.newRect(sceneGroup, display.contentCenterX, 400, 400, 140)
+    bottombar:setFillColor(color.hex("323639"))
+    local graphbackground = display.newRect(sceneGroup, display.contentCenterX, 190, 400, 315)
+    graphbackground:setFillColor(color.hex("ffffff"))
     -- -----------------------------------------------------------------------------------
     -- TEMP DRIVER
     -- -----------------------------------------------------------------------------------
@@ -46,9 +50,10 @@ function scene:create( event )
     local data = proc.loadFile(path)
     
 
-    -- -----------------------------------------------------------------------------------
-    -- TEMP DRIVER
-    -- -----------------------------------------------------------------------------------
+    
+    
+    
+
 
     local function displayPlot(data)
         --Get Data points for scaling (x,y)
@@ -77,15 +82,12 @@ function scene:create( event )
         )
     
         -- Finding the range for x,y cords
-        local rangeX = {}
-        local rangeY = {}
         local rangeX = tableX[#tableX] - tableX[1] -- abeleX[#tableX] = max  tableX[1] = min
         local rangeY = tableY[#tableY] - tableY[1] -- abeleX[#tableY] = max  tableY[1] = min
         local range = nil
         local range = {rangeX, rangeY}
         
 
-        local graphScale = 0
         local graphScaleX = graphSize / range[1]
         local graphScaleY = graphSize / range[2]
         
@@ -103,7 +105,6 @@ function scene:create( event )
         x = midX * graphScaleX
         y = midY * graphScaleY
 
-        print(x,y, graphScaleX, graphScaleY)
     
         --remove graph
         if graph ~= nil then
@@ -140,38 +141,68 @@ function scene:create( event )
             point.y = -graphScaleY * v[2]
         end
     end
-    -- -----------------------------------------------------------------------------------
-    -- TEMP DRIVER
-    -- -----------------------------------------------------------------------------------
-
     displayPlot(data)
 
 
+   
 
-    --View Data Scence Event
-    local function transTest( event )
+    local widget = require( "widget" )
+ 
+    -- Set up the picker wheel columns
+    local columnData = 
+    { 
+        { 
+            align = "center",
+            labelPadding = 20,
+            startIndex = 2,
+            labels = { "Test1", "Test2", "Test3", "Test4" }
+        }
+    }
+     
+    -- Create the widget
+    local pickerWheel = widget.newPickerWheel(
+    {
+        x = display.contentCenterX,
+        top = display.contentHeight - 140,
+        columns = columnData,
+        style = "resizable",
+        width = 180,
+        rowHeight = 18,
+        fontSize = 12,
+        fontColor = {color.hex("323639")},
+        fontColorSelected = {color.hex("f15937")},
+        columnColor = {color.hex("edebe9")}
+    })
+     
+    -- Get the table of current values for all columns
+    -- This can be performed on a button tap, timer execution, or other event
+    local values = pickerWheel:getValues()
+     
+    --About Scence Event
+    local function applyEvent( event )
  
         if ( "ended" == event.phase ) then
-            local data = proc.cubeRoot2(data)
-            displayPlot(data)
-            local i = 1
-            while i ~= 31 do
-                print(print(data[i][1], data[i][2], data[i][3]))
-                i = i + 1
+            local values = pickerWheel:getValues() 
+            local currentfunction = values[1].value
+            print(currentfunction)
+
+            if currentfunction == "Test1" then
+                data = proc.cubeRoot1(data)
+                displayPlot(data)
             end
         end
     end
 
     --About Page Button
-    local cubeRootButton = widget.newButton(
+    local applybutton = widget.newButton(
         {
-            label = "trans Test",
-            onEvent = transTest,
+            label = "Apply",
+            onEvent = applyEvent,
             emboss = false,
             -- Properties for a rounded rectangle button
             shape = "roundedRect",
-            width = 200,
-            height = 40,
+            width = 180,
+            height = 45,
             cornerRadius = 2,
             labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
             fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
@@ -179,12 +210,11 @@ function scene:create( event )
             strokeWidth = 4
         }
     )
+    sceneGroup:insert(applybutton)
 
     -- Center the button
-    cubeRootButton.x = display.contentCenterX 
-    cubeRootButton.y = display.contentCenterY * 1.6
-
-    sceneGroup:insert(cubeRootButton)
+    applybutton.x = display.contentCenterX + 95
+    applybutton.y = display.contentCenterY + 125
 
 
 
