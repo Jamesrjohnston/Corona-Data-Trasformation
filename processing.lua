@@ -45,55 +45,41 @@ function M.loadFile(path)
     return points
 end
 
--- testing n shit
-function M.cubeRoot1(data)
-    local dataNew = {}
+--f(x) = sin(y+2)
+function M.transformation1(data)
     for i, v in ipairs(data) do
         y = v[2]
-        data[i][1] = v[1]
         data[i][2] = math.sin(y+2)
-        data[i][3] = v[3]
     end
     return data
 end
+--f(x) = y3 + y2 – 3y – 1
+function M.transformation2(data)
+    for i, v in ipairs(data) do
+        y = v[2]
+        data[i][2] = y*3 + y*2 - 3*y - 1
+    end
+    return data
+end
+function M.transformation3(data)
 
-function M.cubeRoot2(data)
-    local dataNew = {}
     for i, v in ipairs(data) do
         y = v[2]
-        data[i][1] = v[1]
-        data[i][2] = -y^2-y-3
-        data[i][3] = v[3]
-    end
-    return data
-end
-function M.cubeRoot3(data)
-    local dataNew = {}
-    for i, v in ipairs(data) do
-        y = v[2]
-        data[i][1] = v[1]
         data[i][2] = -y-3*y-4
-        data[i][3] = v[3]
     end
     return data
 end
-function M.cubeRoot4(data)
-    local dataNew = {}
+function M.transformation4(data)
     for i, v in ipairs(data) do
         y = v[2]
-        data[i][1] = v[1]
         data[i][2] = (y + 4) * 2
-        data[i][3] = v[3]
     end
     return data
 end
-function M.cubeRoot5(data)
-    local dataNew = {}
+function M.transformation5(data)
     for i, v in ipairs(data) do
         y = v[2]
-        data[i][1] = v[1]
         data[i][2] = y * 3 + y * 2 -3 * y - 1
-        data[i][3] = v[3]
     end
     return data
 end

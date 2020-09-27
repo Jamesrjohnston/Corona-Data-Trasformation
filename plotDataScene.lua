@@ -34,6 +34,7 @@ function scene:create( event )
     
     --defining some stuff
     local graphSize = 230
+    local detailcheck = false
 
     --scene objects
     local topbar = display.newRect(sceneGroup, display.contentCenterX, -40, 400, 160)
@@ -43,6 +44,7 @@ function scene:create( event )
     bottombar:setFillColor(color.hex("323639"))
     local graphbackground = display.newRect(sceneGroup, display.contentCenterX, 190, 400, 315)
     graphbackground:setFillColor(color.hex("ffffff"))
+
     -- -----------------------------------------------------------------------------------
     -- TEMP DRIVER
     -- -----------------------------------------------------------------------------------
@@ -115,8 +117,85 @@ function scene:create( event )
         graph = display.newGroup()
         graph.x = display.contentCenterX - x
         graph.y = display.contentCenterY + y - 50
-        sceneGroup:insert(graph)
+        sceneGroup:insert(graph) 
         
+
+        --remove graph details 
+        if graphdetails ~= nil then
+            display.remove(graphdetails)
+        end
+
+        maxX = tableX[#tableX]
+        maxY = tableY[#tableY]
+        minX = tableX[1]
+        minY = tableY[1]
+
+        --Creating Graph details
+        graphdetails = display.newGroup()
+
+        local optionsMinX = 
+        {
+            parent = graphdetails,
+            text = minX,     
+            x = display.contentCenterX - 115,
+            y = display.contentCenterY + 80,
+            width = 30,
+            height = 12,
+            font = native.systemFont,   
+            fontSize = 12,
+            align = "center"
+        }
+        local minxText = display.newText( optionsMinX )
+        
+        local optionsMinY = 
+        {
+            parent = graphdetails,
+            text = minY,     
+            x = display.contentCenterX - 143,
+            y = display.contentCenterY + 60,
+            width = 30,
+            height = 12,
+            font = native.systemFont,   
+            fontSize = 12,
+            align = "center"
+        }
+        local minyText = display.newText( optionsMinY ) 
+
+        local optionsMidX = 
+        {
+            parent = graphdetails,
+            text = midX,     
+            x = display.contentCenterX,
+            y = display.contentCenterY + 80,
+            width = 30,
+            height = 12,
+            font = native.systemFont,   
+            fontSize = 12,
+            align = "center"
+        }
+        local midxText = display.newText( optionsMidX ) 
+
+        local optionsMidY = 
+        {
+            parent = graphdetails,
+            text = midY,     
+            x = display.contentCenterX - 143,
+            y = display.contentCenterY - 50,
+            width = 30,
+            height = 12,
+            font = native.systemFont,   
+            fontSize = 12,
+            align = "center"
+        }
+        local midyText = display.newText( optionsMidY )
+
+        minxText:setFillColor(color.hex("010203"))
+        minyText:setFillColor(color.hex("010203"))
+        midxText:setFillColor(color.hex("010203"))
+        midyText:setFillColor(color.hex("010203"))
+        sceneGroup:insert(graphdetails)
+
+
         --Displaying points
         for i, v in ipairs(data) do
             --Creating display group for current point and adding point to the graph
@@ -136,11 +215,12 @@ function scene:create( event )
             else  
                 dot:setFillColor(color.hex("ffffff"))
             end
-            
             point.x = graphScaleX * v[1]
             point.y = -graphScaleY * v[2]
         end
     end
+
+    --ploting the default data first time
     displayPlot(data)
 
 
@@ -167,33 +247,33 @@ function scene:create( event )
         columns = columnData,
         style = "resizable",
         width = 180,
-        rowHeight = 18,
+        rowHeight = 19,
         fontSize = 12,
         fontColor = {color.hex("323639")},
         fontColorSelected = {color.hex("f15937")},
         columnColor = {color.hex("edebe9")}
     })
      
-    -- Get the table of current values for all columns
-    -- This can be performed on a button tap, timer execution, or other event
-    local values = pickerWheel:getValues()
      
-    --About Scence Event
+    --Apply Function button Event
     local function applyEvent( event )
  
         if ( "ended" == event.phase ) then
-            local values = pickerWheel:getValues() 
-            local currentfunction = values[1].value
+            local values = pickerWheel:getValues()
+            local currentfunction = values[1].index
             print(currentfunction)
 
-            if currentfunction == "Test1" then
-                data = proc.cubeRoot1(data)
+            if currentfunction == 1 then
+                data = proc.transformation1(data)
                 displayPlot(data)
-            end
+            elseif currentfunction == 2 then
+                data = proc.transformation2(data)
+                displayPlot(data)
+            end 
         end
     end
 
-    --About Page Button
+    --Apply Function button
     local applybutton = widget.newButton(
         {
             label = "Apply",
@@ -207,7 +287,7 @@ function scene:create( event )
             labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
             fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
             strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
-            strokeWidth = 4
+            strokeWidth = 3
         }
     )
     sceneGroup:insert(applybutton)
@@ -216,11 +296,37 @@ function scene:create( event )
     applybutton.x = display.contentCenterX + 95
     applybutton.y = display.contentCenterY + 125
 
+    --Return to Default Button Event
+    local function dataDefaultEvent( event )
+ 
+        if ( "ended" == event.phase ) then
+            data = proc.loadFile(path)
+            displayPlot(data)
+        end
+    end
 
+    --Return to Default Button
+    local dataDefaultButton = widget.newButton(
+        {
+            label = "Default",
+            onEvent = dataDefaultEvent,
+            emboss = false,
+            -- Properties for a rounded rectangle button
+            shape = "roundedRect",
+            width = 180,
+            height = 45,
+            cornerRadius = 2,
+            labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
+            fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
+            strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
+            strokeWidth = 3
+        }
+    )
+    sceneGroup:insert(dataDefaultButton)
 
-    -- -----------------------------------------------------------------------------------
-    -- TEMP DRIVER
-    -- -----------------------------------------------------------------------------------
+    -- Center the button
+    dataDefaultButton.x = display.contentCenterX + 95
+    dataDefaultButton.y = display.contentCenterY + 170
 
 end
  
