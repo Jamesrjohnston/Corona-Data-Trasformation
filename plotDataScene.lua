@@ -48,12 +48,14 @@ function scene:create( event )
     -- -----------------------------------------------------------------------------------
     -- TEMP DRIVER
     -- -----------------------------------------------------------------------------------
-    local path = system.pathForFile("data.csv", system.ResourceDirectory)
+    local filename = event.params.filename
+    local path = system.pathForFile(filename, system.ResourceDirectory)
     local data = proc.loadFile(path)
     
-
+    for i, v in ipairs(data) do
+        print(v[1],v[2],v[3]) 
     
-    
+    end
     
 
 
@@ -61,13 +63,10 @@ function scene:create( event )
         --Get Data points for scaling (x,y)
         local tableX = {}
         local tableY = {}
-        for i, v in ipairs(data) do 
-            tableX[i] = v[1]
-            tableY[i] = v[2]
+        for i, v in ipairs(data) do
+            tableX[i] = tonumber(v[1])
+            tableY[i] = tonumber(v[2])
         end
-    
-        -- table.sort(tableX)
-        -- table.sort(tableY)
         
         -- Sort table to make shit easier
         table.sort(
@@ -76,13 +75,13 @@ function scene:create( event )
                 return tonumber(a) < tonumber(b)
             end
         )
+        for i,v in ipairs(tableX) do print(v) end
         table.sort(
             tableY,
             function(a, b)
                 return tonumber(a) < tonumber(b)
             end
         )
-    
         -- Finding the range for x,y cords
         local rangeX = tableX[#tableX] - tableX[1] -- abeleX[#tableX] = max  tableX[1] = min
         local rangeY = tableY[#tableY] - tableY[1] -- abeleX[#tableY] = max  tableY[1] = min
@@ -125,6 +124,7 @@ function scene:create( event )
             display.remove(graphdetails)
         end
 
+        --for graph details
         maxX = tableX[#tableX]
         maxY = tableY[#tableY]
         minX = tableX[1]
@@ -152,7 +152,7 @@ function scene:create( event )
             parent = graphdetails,
             text = minY,     
             x = display.contentCenterX - 143,
-            y = display.contentCenterY + 60,
+            y = display.contentCenterY + 65,
             width = 30,
             height = 12,
             font = native.systemFont,   
@@ -189,10 +189,41 @@ function scene:create( event )
         }
         local midyText = display.newText( optionsMidY )
 
+        local optionsMaxX = 
+        {
+            parent = graphdetails,
+            text = maxX,     
+            x = display.contentCenterX + 115,
+            y = display.contentCenterY + 80,
+            width = 30,
+            height = 12,
+            font = native.systemFont,   
+            fontSize = 12,
+            align = "center"
+        }
+        local maxxText = display.newText( optionsMaxX )
+
+        local optionsMaxY = 
+        {
+            parent = graphdetails,
+            text = maxY,     
+            x = display.contentCenterX -143,
+            y = display.contentCenterY -165,
+            width = 30,
+            height = 12,
+            font = native.systemFont,   
+            fontSize = 12,
+            align = "center"
+        }
+        local maxyText = display.newText( optionsMaxY )
+
+
         minxText:setFillColor(color.hex("010203"))
         minyText:setFillColor(color.hex("010203"))
         midxText:setFillColor(color.hex("010203"))
         midyText:setFillColor(color.hex("010203"))
+        maxxText:setFillColor(color.hex("010203"))
+        maxyText:setFillColor(color.hex("010203"))
         sceneGroup:insert(graphdetails)
 
 
@@ -224,9 +255,22 @@ function scene:create( event )
     displayPlot(data)
 
 
-   
-
-    local widget = require( "widget" )
+    --Garph Detaling
+    local graphtTile = 
+    {
+        parent = sceneGroup,
+        text = filename,     
+        x = display.contentCenterX,
+        y = display.contentCenterY - 190,
+        width = 64,
+        height = 12,
+        font = native.systemFont,   
+        fontSize = 12,
+        align = "center"
+    }
+    local GraphTitleText = display.newText( graphtTile )
+    GraphTitleText:setFillColor(color.hex("010203"))
+  
  
     -- Set up the picker wheel columns
     local columnData = 
@@ -253,6 +297,7 @@ function scene:create( event )
         fontColorSelected = {color.hex("f15937")},
         columnColor = {color.hex("edebe9")}
     })
+    
      
      
     --Apply Function button Event
@@ -290,7 +335,6 @@ function scene:create( event )
             strokeWidth = 3
         }
     )
-    sceneGroup:insert(applybutton)
 
     -- Center the button
     applybutton.x = display.contentCenterX + 95
@@ -322,11 +366,69 @@ function scene:create( event )
             strokeWidth = 3
         }
     )
+
     sceneGroup:insert(dataDefaultButton)
+    sceneGroup:insert(applybutton)
+    sceneGroup:insert(pickerWheel)
 
     -- Center the button
     dataDefaultButton.x = display.contentCenterX + 95
     dataDefaultButton.y = display.contentCenterY + 170
+
+
+    --Goto To home page event 
+    local function gotoHomeScene( event )
+        if ( "ended" == event.phase ) then
+            local options = {
+                effect = 'fade',
+                time = 500,
+                params = {
+                    sceneNumber = 2,
+                    filename = filename
+                }
+            }
+            composer.removeScene('plotDataScene')
+            composer:gotoScene('HomeScene', options)
+        end
+    end
+    
+    --ReturnButton
+    local returnbutton = widget.newButton(
+        {
+            parent = sceneGroup,
+            label = "<",
+            onEvent = gotoHomeScene,
+            emboss = false,
+            -- Properties for a rounded rectangle button
+            shape = "roundedRect",
+            width = 48,
+            height = 32,
+            cornerRadius = 14,
+            labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
+            fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
+            strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
+            strokeWidth = 4
+        }
+    )
+
+    sceneGroup:insert(returnbutton)
+
+    -- Center the button
+    returnbutton.x = display.contentCenterX - 120
+    returnbutton.y = display.contentCenterY - 228
+
+    -- Title Text Select Data
+    local titleText = display.newText(
+        {
+            parent = sceneGroup,
+            text = "Graph",
+            x = display.contentCenterX,
+            y = display.contentCenterY -235,
+            font = native.systemFontBold,
+            fontSize = 48
+        }
+    )
+    titleText:setFillColor( color.hex("ef3d43") )
 
 end
  
