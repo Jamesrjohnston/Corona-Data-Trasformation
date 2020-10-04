@@ -78,8 +78,9 @@ function M.transformation4(data)
 end
 function M.transformation5(data)
     for i, v in ipairs(data) do
+        x = v[1]
         y = v[2]
-        data[i][2] = y * 3 + y * 2 -3 * y - 1
+        data[i][2] = (y + 2) * x
     end
     return data
 end

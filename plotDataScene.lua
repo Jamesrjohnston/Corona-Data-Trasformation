@@ -38,10 +38,10 @@ function scene:create( event )
 
     --scene objects
     local topbar = display.newRect(sceneGroup, display.contentCenterX, -40, 400, 160)
-    topbar:setFillColor(color.hex("323639"))
+    topbar:setFillColor(color.hex("edebe9"))
     
-    local bottombar = display.newRect(sceneGroup, display.contentCenterX, 400, 400, 140)
-    bottombar:setFillColor(color.hex("323639"))
+    local bottombar = display.newRect(sceneGroup, display.contentCenterX, 400, 400, 200)
+    bottombar:setFillColor(color.hex("edebe9"))
     local graphbackground = display.newRect(sceneGroup, display.contentCenterX, 190, 400, 315)
     graphbackground:setFillColor(color.hex("ffffff"))
 
@@ -52,10 +52,6 @@ function scene:create( event )
     local path = system.pathForFile(filename, system.ResourceDirectory)
     local data = proc.loadFile(path)
     
-    for i, v in ipairs(data) do
-        print(v[1],v[2],v[3]) 
-    
-    end
     
 
 
@@ -63,9 +59,11 @@ function scene:create( event )
         --Get Data points for scaling (x,y)
         local tableX = {}
         local tableY = {}
+        local tableC = {}
         for i, v in ipairs(data) do
             tableX[i] = tonumber(v[1])
             tableY[i] = tonumber(v[2])
+            tableC[i] = v[3]
         end
         
         -- Sort table to make shit easier
@@ -75,7 +73,6 @@ function scene:create( event )
                 return tonumber(a) < tonumber(b)
             end
         )
-        for i,v in ipairs(tableX) do print(v) end
         table.sort(
             tableY,
             function(a, b)
@@ -140,7 +137,7 @@ function scene:create( event )
             x = display.contentCenterX - 115,
             y = display.contentCenterY + 80,
             width = 30,
-            height = 12,
+            height = 15,
             font = native.systemFont,   
             fontSize = 12,
             align = "center"
@@ -154,7 +151,7 @@ function scene:create( event )
             x = display.contentCenterX - 143,
             y = display.contentCenterY + 65,
             width = 30,
-            height = 12,
+            height = 15,
             font = native.systemFont,   
             fontSize = 12,
             align = "center"
@@ -168,7 +165,7 @@ function scene:create( event )
             x = display.contentCenterX,
             y = display.contentCenterY + 80,
             width = 30,
-            height = 12,
+            height = 15,
             font = native.systemFont,   
             fontSize = 12,
             align = "center"
@@ -182,7 +179,7 @@ function scene:create( event )
             x = display.contentCenterX - 143,
             y = display.contentCenterY - 50,
             width = 30,
-            height = 12,
+            height = 15,
             font = native.systemFont,   
             fontSize = 12,
             align = "center"
@@ -196,7 +193,7 @@ function scene:create( event )
             x = display.contentCenterX + 115,
             y = display.contentCenterY + 80,
             width = 30,
-            height = 12,
+            height = 15,
             font = native.systemFont,   
             fontSize = 12,
             align = "center"
@@ -210,7 +207,7 @@ function scene:create( event )
             x = display.contentCenterX -143,
             y = display.contentCenterY -165,
             width = 30,
-            height = 12,
+            height = 15,
             font = native.systemFont,   
             fontSize = 12,
             align = "center"
@@ -226,6 +223,31 @@ function scene:create( event )
         maxyText:setFillColor(color.hex("010203"))
         sceneGroup:insert(graphdetails)
 
+        
+
+        --finding all unique classes
+        local hash = {}
+        local uniqueClass = {}
+
+        for _,v in ipairs(tableC) do
+            if (not hash[v]) then
+                uniqueClass[#uniqueClass+1] = v -- you could print here instead of saving to result table if you wanted
+                hash[v] = true
+            end
+        end
+
+        --find # of dot to scale width
+        local dotScale = 3
+        print(#tableX, #tableY, #tableC)
+        if #tableX <= 10 then
+            dotScale = 4
+        elseif #tableY <= 11 and #tableY >= 40 then
+            dotScale = 3
+        elseif #tableC <= 41 and #tableC >= 100 then
+            dotScale = 2
+        elseif #tableX >= 101 then
+            dotScale = 1
+        end
 
         --Displaying points
         for i, v in ipairs(data) do
@@ -233,16 +255,20 @@ function scene:create( event )
             local point =  display.newGroup()
             graph:insert(point) 
     
-            local dot = display.newCircle(point, 0, 0, 3)
+            local dot = display.newCircle(point, 0, 0, dotScale)
             
             --Dot Fill Colour (BAD FIX IN REAL IMPLATIONS -- make more robust not hard set) <-- like a random range or some shit
     
-            if v[3] == 'B' then
-                dot:setFillColor(color.hex("0000ff"))
-            elseif v[3] == 'M' then
-                dot:setFillColor(color.hex("00ff00"))
-            elseif v[3] == 'Z' then
-                dot:setFillColor(color.hex("ff0000"))
+            if v[3] == uniqueClass[1] then
+                dot:setFillColor(color.hex("4472C4"))
+            elseif v[3] == uniqueClass[2] then
+                dot:setFillColor(color.hex("ED7D31"))
+            elseif v[3] == uniqueClass[3] then
+                dot:setFillColor(color.hex("FFC000"))
+            elseif v[3] == uniqueClass[4] then
+                dot:setFillColor(color.hex("5B9BD5"))
+            elseif v[3] == uniqueClass[5] then
+                dot:setFillColor(color.hex("70AD47"))
             else  
                 dot:setFillColor(color.hex("ffffff"))
             end
@@ -263,7 +289,7 @@ function scene:create( event )
         x = display.contentCenterX,
         y = display.contentCenterY - 190,
         width = 64,
-        height = 12,
+        height = 15,
         font = native.systemFont,   
         fontSize = 12,
         align = "center"
@@ -279,7 +305,7 @@ function scene:create( event )
             align = "center",
             labelPadding = 20,
             startIndex = 2,
-            labels = { "Test1", "Test2", "Test3", "Test4" }
+            labels = { "Test1", "Test2", "Test3", "Test4", "test5" }
         }
     }
      
@@ -313,6 +339,15 @@ function scene:create( event )
                 displayPlot(data)
             elseif currentfunction == 2 then
                 data = proc.transformation2(data)
+                displayPlot(data)
+            elseif currentfunction == 3 then
+                data = proc.transformation3(data)
+                displayPlot(data)
+            elseif currentfunction == 4 then
+                data = proc.transformation4(data)
+                displayPlot(data)
+            elseif currentfunction == 5 then
+                data = proc.transformation5(data)
                 displayPlot(data)
             end 
         end
@@ -415,7 +450,7 @@ function scene:create( event )
 
     -- Center the button
     returnbutton.x = display.contentCenterX - 120
-    returnbutton.y = display.contentCenterY - 228
+    returnbutton.y = display.contentCenterY - 240
 
     -- Title Text Select Data
     local titleText = display.newText(
@@ -423,12 +458,46 @@ function scene:create( event )
             parent = sceneGroup,
             text = "Graph",
             x = display.contentCenterX,
-            y = display.contentCenterY -235,
+            y = display.contentCenterY -240,
             font = native.systemFontBold,
-            fontSize = 48
+            fontSize = 46
         }
     )
     titleText:setFillColor( color.hex("ef3d43") )
+
+    local dividerLine1 =
+        display.newLine(
+        sceneGroup,
+        display.contentCenterX - 250,
+        display.contentCenterY - 209,
+        display.contentCenterX + 250,
+        display.contentCenterY - 209
+    )
+    dividerLine1.strokeWidth = 3
+    dividerLine1:setStrokeColor(color.hex("010203"))
+
+
+    local dividerLine2 =
+    display.newLine(
+    sceneGroup,
+    display.contentCenterX - 250,
+    display.contentCenterY + 102,
+    display.contentCenterX + 250,
+    display.contentCenterY + 102
+    )
+    dividerLine2.strokeWidth = 3
+    dividerLine2:setStrokeColor(color.hex("010203"))
+
+    local dividerLine3 =
+    display.newLine(
+    sceneGroup,
+    display.contentCenterX - 250,
+    display.contentCenterY + 193,
+    display.contentCenterX + 250,
+    display.contentCenterY + 193
+    )
+    dividerLine3.strokeWidth = 3
+    dividerLine3:setStrokeColor(color.hex("010203"))
 
 end
  
