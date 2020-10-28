@@ -57,7 +57,7 @@ end
 function M.transformation2(data)
     for i, v in ipairs(data) do
         y = v[2]
-        data[i][2] = y*3 + y*2 - 3*y - 1
+        data[i][2] = math.cos(y+2)
     end
     return data
 end
@@ -65,24 +65,88 @@ function M.transformation3(data)
 
     for i, v in ipairs(data) do
         y = v[2]
-        data[i][2] = -y-3*y-4
+        data[i][2] = math.atan(y) 
     end
     return data
 end
 function M.transformation4(data)
     for i, v in ipairs(data) do
         y = v[2]
-        data[i][2] = (y + 4) * 2
+        x = v[1]
+        data[i][2] = math.atan2(y,x)
     end
     return data
 end
 function M.transformation5(data)
     for i, v in ipairs(data) do
-        x = v[1]
         y = v[2]
-        data[i][2] = (y + 2) * x
+        x = v[1]
+        data[i][1] = math.atan2(y,x)
     end
     return data
 end
-
+function M.transformation6(data)
+    for i, v in ipairs(data) do
+        x = v[1]
+        y = v[2]
+        data[i][1] = x^(1/3)
+    end
+    return data
+end
+function M.transformation7(data)
+    for i, v in ipairs(data) do
+        x = v[1]
+        y = v[2]
+        data[i][2] = y^(1/3)
+    end
+    return data
+end
+function M.transformation8(data)
+    for i, v in ipairs(data) do
+        x = v[1]
+        y = v[2]
+        data[i][2] = 1/y
+    end
+    return data
+end
+function M.transformation9(data)
+    for i, v in ipairs(data) do
+        x = v[1]
+        y = v[2]
+        data[i][1] = 1/x
+    end
+    return data
+end
+function M.transformation10(data)
+    for i, v in ipairs(data) do
+        x = v[1]
+        y = v[2]
+        data[i][2] = y^x
+    end
+    return data
+end
+function M.transformation11(data)
+    for i, v in ipairs(data) do
+        x = v[1]
+        y = v[2]
+        data[i][1] = math.log(x)
+    end
+    return data
+end
+function M.transformation12(data)
+    for i, v in ipairs(data) do
+        x = v[1]
+        y = v[2]
+        data[i][2] = math.log(y)
+    end
+    return data
+end
+function M.transformation13(data)
+    for i, v in ipairs(data) do
+        x = v[1]
+        y = v[2]
+        data[i][2] = math.log10(y)
+    end
+    return data
+end
 return M

@@ -32,9 +32,10 @@ function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
     
+    --setting default file name
     local filename = "data.csv"
 
-    -- Home Page TEXT
+    -- Home Page Text
     local homeText = display.newText(
         {
             parent = sceneGroup,
@@ -50,7 +51,7 @@ function scene:create( event )
     sceneGroup:insert(homeText)
     
     --About Scence Event
-    local function gotoAboutScence( event )
+    local function gotoAboutScene( event )
  
         if ( "ended" == event.phase ) then
             local options = {
@@ -65,10 +66,10 @@ function scene:create( event )
     end
 
     --About Page Button
-    local AboutScencebutton = widget.newButton(
+    local AboutScenebutton = widget.newButton(
         {
             label = "APP Info",
-            onEvent = gotoAboutScence,
+            onEvent = gotoAboutScene,
             emboss = false,
             -- Properties for a rounded rectangle button
             shape = "roundedRect",
@@ -81,11 +82,11 @@ function scene:create( event )
             strokeWidth = 4
         }
     )
-    sceneGroup:insert(AboutScencebutton)
+    sceneGroup:insert(AboutScenebutton)
 
     -- Center the button
-    AboutScencebutton.x = display.contentCenterX 
-    AboutScencebutton.y = display.contentCenterY * 0.8
+    AboutScenebutton.x = display.contentCenterX 
+    AboutScenebutton.y = display.contentCenterY * 0.8
 
     --Select Data Event
     local function gotoSelectData( event )

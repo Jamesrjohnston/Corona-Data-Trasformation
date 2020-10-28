@@ -144,6 +144,46 @@ function scene:create( event )
             emboss = false,
             -- Properties for a rounded rectangle button
             shape = "roundedRect",
+            width = 300,
+            height = 80,
+            cornerRadius = 10,
+            labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
+            fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
+            strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
+            strokeWidth = 4
+        }
+    )
+    -- Center the button
+    returnbutton.x = display.contentCenterX 
+    returnbutton.y = display.contentCenterY + 220
+    
+    
+    -- Not currently added (placeholder) 
+    -- About Scence Event
+    local function AddFile( event )
+        if ( "ended" == event.phase ) then
+            local options = {
+                effect = 'fade',
+                time = 500,
+                params = {
+                    sceneNumber = 2,
+                    ilename = selectfile
+                    }
+                }
+            composer.removeScene('selectDataScene')
+            composer:gotoScene('HomeScene', options)
+        end
+    end
+   --[[     
+    --About Page Button
+    local AddFileButton = widget.newButton(
+        {
+            parent = sceneGroup,
+            label = "Add File",
+            onEvent = AddFile,
+            emboss = false,
+            -- Properties for a rounded rectangle button
+            shape = "roundedRect",
             width = 140,
             height = 80,
             cornerRadius = 10,
@@ -154,51 +194,12 @@ function scene:create( event )
         }
     )
     -- Center the button
-    returnbutton.x = display.contentCenterX * 0.5
-    returnbutton.y = display.contentCenterY + 220
-    
+    AddFileButton.x = display.contentCenterX * 1.5
+    AddFileButton.y = display.contentCenterY + 220
+
+    sceneGroup:insert(AddFileButton)
+    --]]
     sceneGroup:insert(returnbutton)
-
-        --About Scence Event
-        local function AddFile( event )
-            if ( "ended" == event.phase ) then
-                local options = {
-                    effect = 'fade',
-                    time = 500,
-                    params = {
-                        sceneNumber = 2,
-                        filename = selectfile
-                    }
-                }
-                composer.removeScene('selectDataScene')
-                composer:gotoScene('HomeScene', options)
-            end
-        end
-        
-        --About Page Button
-        local AddFileButton = widget.newButton(
-            {
-                parent = sceneGroup,
-                label = "Add File",
-                onEvent = AddFile,
-                emboss = false,
-                -- Properties for a rounded rectangle button
-                shape = "roundedRect",
-                width = 140,
-                height = 80,
-                cornerRadius = 10,
-                labelColor = {default = {color.hex("edebe9")}, over = {color.hex("34acbc"), 1}},
-                fillColor = { default={color.hex("34acbc"),1}, over={color.hex("ff10ae"),1} },
-                strokeColor = { default={color.hex("010203"),1}, over={color.hex("f15937"), 1} },
-                strokeWidth = 4
-            }
-        )
-        -- Center the button
-        AddFileButton.x = display.contentCenterX * 1.5
-        AddFileButton.y = display.contentCenterY + 220
-        
-        sceneGroup:insert(AddFileButton)
-
 end
  
  

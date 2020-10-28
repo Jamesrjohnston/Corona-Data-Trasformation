@@ -117,8 +117,8 @@ function scene:create( event )
         
 
         --remove graph details 
-        if graphdetails ~= nil then
-            display.remove(graphdetails)
+        if graphDetails ~= nil then
+            display.remove(graphDetails)
         end
 
         --for graph details
@@ -128,11 +128,11 @@ function scene:create( event )
         minY = tableY[1]
 
         --Creating Graph details
-        graphdetails = display.newGroup()
+        graphDetails = display.newGroup()
 
         local optionsMinX = 
         {
-            parent = graphdetails,
+            parent = graphDetails,
             text = minX,     
             x = display.contentCenterX - 115,
             y = display.contentCenterY + 80,
@@ -146,7 +146,7 @@ function scene:create( event )
         
         local optionsMinY = 
         {
-            parent = graphdetails,
+            parent = graphDetails,
             text = minY,     
             x = display.contentCenterX - 143,
             y = display.contentCenterY + 65,
@@ -160,7 +160,7 @@ function scene:create( event )
 
         local optionsMidX = 
         {
-            parent = graphdetails,
+            parent = graphDetails,
             text = midX,     
             x = display.contentCenterX,
             y = display.contentCenterY + 80,
@@ -174,7 +174,7 @@ function scene:create( event )
 
         local optionsMidY = 
         {
-            parent = graphdetails,
+            parent = graphDetails,
             text = midY,     
             x = display.contentCenterX - 143,
             y = display.contentCenterY - 50,
@@ -188,7 +188,7 @@ function scene:create( event )
 
         local optionsMaxX = 
         {
-            parent = graphdetails,
+            parent = graphDetails,
             text = maxX,     
             x = display.contentCenterX + 115,
             y = display.contentCenterY + 80,
@@ -202,7 +202,7 @@ function scene:create( event )
 
         local optionsMaxY = 
         {
-            parent = graphdetails,
+            parent = graphDetails,
             text = maxY,     
             x = display.contentCenterX -143,
             y = display.contentCenterY -165,
@@ -221,7 +221,52 @@ function scene:create( event )
         midyText:setFillColor(color.hex("010203"))
         maxxText:setFillColor(color.hex("010203"))
         maxyText:setFillColor(color.hex("010203"))
-        sceneGroup:insert(graphdetails)
+
+        local plotdividerLine1 =
+        display.newLine(
+        graphDetails,
+        display.contentCenterX - 146 ,
+        display.contentCenterY - 153,
+        display.contentCenterX - 146 ,
+        display.contentCenterY - 65
+        )
+        plotdividerLine1.strokeWidth = 1
+        plotdividerLine1:setStrokeColor(color.hex("010203"))
+    
+        local plotdividerLine2 =
+        display.newLine(
+        graphDetails,
+        display.contentCenterX - 146 ,
+        display.contentCenterY - 36,
+        display.contentCenterX - 146 ,
+        display.contentCenterY + 52
+        )
+        plotdividerLine2.strokeWidth = 1
+        plotdividerLine2:setStrokeColor(color.hex("010203"))
+
+        local plotdividerLine3 =
+        display.newLine(
+        graphDetails,
+        display.contentCenterX + 95,
+        display.contentCenterY + 80,
+        display.contentCenterX + 17,
+        display.contentCenterY + 80
+        )
+        plotdividerLine3.strokeWidth = 1
+        plotdividerLine3:setStrokeColor(color.hex("010203"))
+    
+        local plotdividerLine4 =
+        display.newLine(
+        graphDetails,
+        display.contentCenterX - 20 ,
+        display.contentCenterY + 80,
+        display.contentCenterX - 98,
+        display.contentCenterY + 80
+        )
+        plotdividerLine4.strokeWidth = 1
+        plotdividerLine4:setStrokeColor(color.hex("010203"))
+
+        sceneGroup:insert(graphDetails)
 
         
 
@@ -257,7 +302,7 @@ function scene:create( event )
     
             local dot = display.newCircle(point, 0, 0, dotScale)
             
-            --Dot Fill Colour (BAD FIX IN REAL IMPLATIONS -- make more robust not hard set) <-- like a random range or some shit
+            --Dot Fill Colour
     
             if v[3] == uniqueClass[1] then
                 dot:setFillColor(color.hex("4472C4"))
@@ -305,7 +350,7 @@ function scene:create( event )
             align = "center",
             labelPadding = 20,
             startIndex = 2,
-            labels = { "Test1", "Test2", "Test3", "Test4", "test5" }
+            labels = { "f(y) = sin(y+2)", "f(y) = cos(y+2)", "f(y) = atan(y)", "f(y) = atan2(y,x) ","f(x) = atan2(y,x)", "f(y) = abs(log(y+8)","trans7","trans8","trans9","trans10","trans11","trans12","13"  }
         }
     }
      
@@ -348,6 +393,27 @@ function scene:create( event )
                 displayPlot(data)
             elseif currentfunction == 5 then
                 data = proc.transformation5(data)
+                displayPlot(data)
+            elseif currentfunction == 6 then
+                data = proc.transformation6(data)
+                displayPlot(data)
+            elseif currentfunction == 7 then
+                data = proc.transformation7(data)
+                displayPlot(data)
+            elseif currentfunction == 8 then
+                data = proc.transformation8(data)
+                displayPlot(data)
+            elseif currentfunction == 9 then
+                data = proc.transformation9(data)
+                displayPlot(data)
+            elseif currentfunction == 11 then
+                data = proc.transformation9(data)
+                displayPlot(data)
+            elseif currentfunction == 12 then
+                data = proc.transformation9(data)
+                displayPlot(data)
+            elseif currentfunction == 13 then
+                data = proc.transformation9(data)
                 displayPlot(data)
             end 
         end
