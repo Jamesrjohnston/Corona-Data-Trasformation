@@ -45,7 +45,7 @@ function M.loadFile(path)
     return points
 end
 
---f(x) = sin(y+2)
+--f(y) = sin(y+2)
 function M.transformation1(data)
     for i, v in ipairs(data) do
         y = v[2]
@@ -53,7 +53,6 @@ function M.transformation1(data)
     end
     return data
 end
---f(x) = y3 + y2 – 3y – 1
 function M.transformation2(data)
     for i, v in ipairs(data) do
         y = v[2]
@@ -62,7 +61,6 @@ function M.transformation2(data)
     return data
 end
 function M.transformation3(data)
-
     for i, v in ipairs(data) do
         y = v[2]
         data[i][2] = math.atan(y) 
@@ -145,7 +143,7 @@ function M.transformation13(data)
     for i, v in ipairs(data) do
         x = v[1]
         y = v[2]
-        data[i][2] = math.log10(y)
+        data[i][2] = math.cosh(y)
     end
     return data
 end

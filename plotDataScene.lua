@@ -283,12 +283,11 @@ function scene:create( event )
 
         --find # of dot to scale width
         local dotScale = 3
-        print(#tableX, #tableY, #tableC)
         if #tableX <= 10 then
             dotScale = 4
-        elseif #tableY <= 11 and #tableY >= 40 then
+        elseif #tableX >= 11 and #tableX <= 40 then
             dotScale = 3
-        elseif #tableC <= 41 and #tableC >= 100 then
+        elseif #tableX >= 41 and #tableX <= 100 then
             dotScale = 2
         elseif #tableX >= 101 then
             dotScale = 1
@@ -303,7 +302,6 @@ function scene:create( event )
             local dot = display.newCircle(point, 0, 0, dotScale)
             
             --Dot Fill Colour
-    
             if v[3] == uniqueClass[1] then
                 dot:setFillColor(color.hex("4472C4"))
             elseif v[3] == uniqueClass[2] then
@@ -350,7 +348,7 @@ function scene:create( event )
             align = "center",
             labelPadding = 20,
             startIndex = 2,
-            labels = { "f(y) = sin(y+2)", "f(y) = cos(y+2)", "f(y) = atan(y)", "f(y) = atan2(y,x) ","f(x) = atan2(y,x)", "f(y) = abs(log(y+8)","trans7","trans8","trans9","trans10","trans11","trans12","13"  }
+            labels = { "f(y) = sin(y+2)", "f(y) = cos(y+2)", "f(y) = atan(y)", "f(y) = atan2(y,x) ","f(x) = atan2(y,x)", "f(y) = abs(log(y+8)","f(y) = y^(1/3)","f(y) = 1/y","f(x) = 1/x","f(y) = y^x","f(x) = log(x)","f(y) = log(y)","f(y) = cosh(y)"  }
         }
     }
      
@@ -378,7 +376,6 @@ function scene:create( event )
             local values = pickerWheel:getValues()
             local currentfunction = values[1].index
             print(currentfunction)
-
             if currentfunction == 1 then
                 data = proc.transformation1(data)
                 displayPlot(data)
@@ -406,14 +403,17 @@ function scene:create( event )
             elseif currentfunction == 9 then
                 data = proc.transformation9(data)
                 displayPlot(data)
+            elseif currentfunction == 10 then
+                data = proc.transformation10(data)
+                displayPlot(data)
             elseif currentfunction == 11 then
-                data = proc.transformation9(data)
+                data = proc.transformation11(data)
                 displayPlot(data)
             elseif currentfunction == 12 then
-                data = proc.transformation9(data)
+                data = proc.transformation12(data)
                 displayPlot(data)
             elseif currentfunction == 13 then
-                data = proc.transformation9(data)
+                data = proc.transformation13(data)
                 displayPlot(data)
             end 
         end
@@ -443,7 +443,6 @@ function scene:create( event )
 
     --Return to Default Button Event
     local function dataDefaultEvent( event )
- 
         if ( "ended" == event.phase ) then
             data = proc.loadFile(path)
             displayPlot(data)

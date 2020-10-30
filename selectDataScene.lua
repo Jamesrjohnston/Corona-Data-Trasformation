@@ -34,7 +34,7 @@ function scene:create( event )
     local sceneGroup = self.view
     
     -- Pre-provided files
-    local datafiles = {"data.csv", "data2.csv", "data3.csv","bigboytest.csv"}
+    local datafiles = {"data.csv", "data2.csv", "data3.csv","data4.csv", "data5.csv", "bigboytest.csv"}
     local filename = "data.csv"
 
     local topbar = display.newRect(sceneGroup, display.contentCenterX, -50, 400, 180)
