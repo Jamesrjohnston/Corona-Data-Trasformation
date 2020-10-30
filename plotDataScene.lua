@@ -85,17 +85,8 @@ function scene:create( event )
         local range = nil
         local range = {rangeX, rangeY}
         
-
         local graphScaleX = graphSize / range[1]
         local graphScaleY = graphSize / range[2]
-        
-    
-      --[[  
-        --Find range mid points
-        local x = nil local y = nil
-        local x = ((tableX[#tableX] + tableX[1]) / 2) * graphScale
-        local y = ((tableY[#tableY] + tableY[1]) / 2) * graphScale
-        ]]--
         
         midX = (tableX[#tableX] + tableX[1]) / 2 
         midY = (tableY[#tableY] + tableY[1]) / 2
@@ -268,8 +259,6 @@ function scene:create( event )
 
         sceneGroup:insert(graphDetails)
 
-        
-
         --finding all unique classes
         local hash = {}
         local uniqueClass = {}
@@ -319,11 +308,9 @@ function scene:create( event )
             point.y = -graphScaleY * v[2]
         end
     end
-
     --ploting the default data first time
     displayPlot(data)
-
-
+    
     --Garph Detaling
     local graphtTile = 
     {
@@ -331,7 +318,7 @@ function scene:create( event )
         text = filename,     
         x = display.contentCenterX,
         y = display.contentCenterY - 190,
-        width = 64,
+        width = 128,
         height = 15,
         font = native.systemFont,   
         fontSize = 12,
@@ -340,7 +327,6 @@ function scene:create( event )
     local GraphTitleText = display.newText( graphtTile )
     GraphTitleText:setFillColor(color.hex("010203"))
   
- 
     -- Set up the picker wheel columns
     local columnData = 
     { 
@@ -350,8 +336,7 @@ function scene:create( event )
             startIndex = 2,
             labels = { "f(y) = sin(y+2)", "f(y) = cos(y+2)", "f(y) = atan(y)", "f(y) = atan2(y,x) ","f(x) = atan2(y,x)", "f(y) = abs(log(y+8)","f(y) = y^(1/3)","f(y) = 1/y","f(x) = 1/x","f(y) = y^x","f(x) = log(x)","f(y) = log(y)","f(y) = cosh(y)"  }
         }
-    }
-     
+    }  
     -- Create the widget
     local pickerWheel = widget.newPickerWheel(
     {
@@ -366,8 +351,7 @@ function scene:create( event )
         fontColorSelected = {color.hex("f15937")},
         columnColor = {color.hex("edebe9")}
     })
-    
-     
+       
      
     --Apply Function button Event
     local function applyEvent( event )
@@ -475,7 +459,6 @@ function scene:create( event )
     dataDefaultButton.x = display.contentCenterX + 95
     dataDefaultButton.y = display.contentCenterY + 170
 
-
     --Goto To home page event 
     local function gotoHomeScene( event )
         if ( "ended" == event.phase ) then
@@ -541,7 +524,6 @@ function scene:create( event )
     dividerLine1.strokeWidth = 3
     dividerLine1:setStrokeColor(color.hex("010203"))
 
-
     local dividerLine2 =
     display.newLine(
     sceneGroup,
@@ -565,8 +547,7 @@ function scene:create( event )
     dividerLine3:setStrokeColor(color.hex("010203"))
 
 end
- 
- 
+  
 -- show()
 function scene:show( event )
  
@@ -581,7 +562,6 @@ function scene:show( event )
  
     end
 end
- 
  
 -- hide()
 function scene:hide( event )
